@@ -6,5 +6,23 @@ from boggle import Boggle
 
 class FlaskTests(TestCase):
 
-    # TODO -- write tests for every view function / feature!
+    def test_home_page(self):
+        with app.test_client() as client:
+            resp = client.get('/')
+            html = resp.get_data(as_text=True)
+
+            self.assertEqual(resp.status_code, 200)
+            self.assertIn('<div id="game">', html)
+
+    def test_session_board(self):
+        with app.test_client() as client:
+            resp = client.get('/')
+            
+            self.assertTrue(isinstance(session['board'], list))
+            self.assertTrue(isinstance(session['board'][0], list))
+            self.assertEqual(len(session['board']), 5)
+            self.assertEqual(len(session['board'][0]), 5)
+
+
+
 
