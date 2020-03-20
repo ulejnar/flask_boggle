@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect
+from flask import Flask, request, render_template, redirect, session
 from flask_debugtoolbar import DebugToolbarExtension
 from boggle import Boggle
 
@@ -11,6 +11,7 @@ debug = DebugToolbarExtension(app)
 
 @app.route('/')
 def show_home_page():
-    """ Show the home page """
-    
-    return "Hello"
+    session["board"] = boggle_game.make_board()
+
+    return render_template("board.html",board=session["board"])
+
